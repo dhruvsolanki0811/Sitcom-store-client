@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom"
 import placeholder from "../../assets/emptyImage.webp"
 function EmptyCard({message,type}:{message:string,type:string}) {
+  const navigate=useNavigate()
   return (
     <>
     <div className="container flex flex-col mt-5 items-center gap-2">
@@ -7,7 +9,7 @@ function EmptyCard({message,type}:{message:string,type:string}) {
     <div className="img-container w-[15rem] h-[12rem] overflow-hidden">
     <img src={placeholder} alt="" className="object-fill"/>
     </div>
-    <div className="msg-empty text-sm hover:bg-zinc-700	 hover:text-white text-white p-2 border-white border-[1px] border-solid rounded-[5px] ">{type}</div>
+    <div onClick={()=>navigate('/login')}className="msg-empty cursor-pointer text-sm hover:bg-zinc-700	 hover:text-white text-white p-2 border-white border-[1px] border-solid rounded-[5px] ">{type}</div>
     </div>
     </>
   )

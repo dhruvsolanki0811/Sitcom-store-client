@@ -5,11 +5,19 @@
 * {
   padding: 0px;
   margin: 0px;
-  background-color: #1f2028;
   font-family: 'Poppins', sans-serif; 
 
 }
+
+
+.main-content{
+  padding-top: 0.75rem;
+}
+:root{
+  background-color: #1f2028;
+}
 ::-webkit-scrollbar {
+  background-color: #1f2028;
   width: 0.4rem;
   height: 5px;
 }
@@ -21,4 +29,27 @@
 
 ::-webkit-scrollbar-track {
   background-color: transparent;
+}
+
+.footer-bar{ 
+  display: none;
+}
+
+@media only screen and (max-width: 450px) {
+  .sidebar-sec{
+    display: none;
+  }
+  .footer-bar{ 
+    display: block;
+  }
+  .main-content{
+    margin-bottom: 32px;
+  }
+}
+
+
+@media only screen and (max-width: 360px) {
+  .video-card{
+    width:85vw;
+  }
 }

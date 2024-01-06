@@ -1,17 +1,146 @@
 import { Sidebar } from "../../components/Sidebar/Sidebar";
-import { Navbar, VideoCard } from "../../components/components";
+import {
+  BottomBar,
+  CustomLoader,
+  Navbar,
+  VideoCard,
+} from "../../components/components";
 import ReactPlayer from "react-player/youtube";
 import { FaPlay } from "react-icons/fa6";
 import { BiSolidLike } from "react-icons/bi";
 import { FaRegClock } from "react-icons/fa";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
-import "./SingleVideoPage.css"
+import "./SingleVideoPage.css";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useVideoStore } from "../../store/Videostore";
+import { useUserAuthStore } from "../../store/Authstore";
+import { AiOutlineLike } from "react-icons/ai";
 
 function SingleVideoPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [video, setVideo] = useState<any>(null);
+  const {
+    getSingleVideo,
+    videos,
+    getVideo,
+    addToHistory,
+    loader,
+    likedStatus,
+    addLiked,
+    deleteLiked,
+
+    watchLaterStatus,
+    addWatchlater,
+    deleteWatchlater,
+  } = useVideoStore();
+  const { user } = useUserAuthStore();
+  const [likeText, SetLikeText] = useState<string>("Like");
+  const [watchlaterText, SetwatchlaterText] =
+    useState<string>("Add to Watchlater");
+  const [likeLoader, SetlikeLoader] = useState<boolean>(false);
+  const [wLoader, setWLoader] = useState<boolean>(false);
+  useEffect(() => {
+    SetlikeLoader(true);
+    setWLoader(true);
+    console.log(wLoader, "o1");
+    if (id) {
+      getVideo();
+      getSingleVideo(parseInt(id)).then((res) => {
+        setVideo(res);
+      });
+    }
+    if (user.userId && id) {
+      console.log(id);
+      likedStatus(parseInt(id)).then((res: boolean) => {
+        console.log(res);
+        if (res) {
+          SetLikeText("Liked");
+        } else {
+          SetLikeText("Like");
+        }
+      });
+
+      watchLaterStatus(parseInt(id)).then((res: boolean) => {
+        console.log(res);
+        if (res) {
+          SetwatchlaterText("Remove from Watchlater");
+        } else {
+          SetwatchlaterText("Add to Watchlater");
+        }
+      });
+    }
+
+    SetlikeLoader(false);
+    setWLoader(false);
+  }, [id]);
+
+  const handleLike = () => {
+    SetlikeLoader(true);
+
+    if (likeText == "Liked") {
+      deleteLiked(video.id).then(() => {
+        likedStatus(video.id).then((res: boolean) => {
+          console.log(res);
+          if (res) {
+            SetLikeText("Liked");
+          } else {
+            SetLikeText("Like");
+          }
+          SetlikeLoader(false);
+        });
+      });
+    } else if (likeText == "Like") {
+      addLiked(user.userId, video.id).then(() => {
+        likedStatus(video.id).then((res: boolean) => {
+          console.log(res);
+          if (res) {
+            SetLikeText("Liked");
+          } else {
+            SetLikeText("Like");
+          }
+          SetlikeLoader(false);
+        });
+      });
+    }
+  };
+
+  const handleWatchlater = () => {
+
+    setWLoader(true);
+    if (watchlaterText == "Remove from Watchlater") {
+      deleteWatchlater(video.id).then(() => {
+        watchLaterStatus(video.id).then((res: boolean) => {
+          console.log(res);
+          if (res) {
+            SetwatchlaterText("Remove from Watchlater");
+          } else {
+            SetwatchlaterText("Add to Watchlater");
+          }
+          setWLoader(false);
+          console.log(likeLoader, loader, wLoader, "pe");
+        });
+      });
+    } else if (watchlaterText == "Add to Watchlater") {
+      addWatchlater(user.userId, video.id).then(() => {
+        watchLaterStatus(video.id).then((res: boolean) => {
+          console.log(res);
+          if (res) {
+            SetwatchlaterText("Remove from Watchlater");
+          } else {
+            SetwatchlaterText("Add to Watchlater");
+          }
+          setWLoader(false);
+          console.log(likeLoader, loader, setWLoader, "pe");
+        });
+      });
+    }
+  };
   return (
     <>
       <Navbar></Navbar>
-      <div className="main-content flex w-full max-w-[100vw] mt-1">
+      <div className="main-content flex w-full max-w-[100vw] ">
         <Sidebar></Sidebar>
         <div className="content-wrapper flex  ps-1 w-full m-w-full h-full">
           <div className="video-container flex  basis-[70%] grow-[10] flex-col">
@@ -21,45 +150,123 @@ function SingleVideoPage() {
                 width="100%"
                 height="100%"
                 playing={true}
-                light={"https://i.ytimg.com/vi/4BUgLMldFQY/hq720.jpg"}
+                light={video?.image ?? ""}
                 onStart={() => {}}
-                url={`https://www.youtube.com/embed/pS8vN5pdBL4?si=XK84DdP4eSwR-_05`}
+                url={`https://www.youtube.com/embed/${video?.url}`}
                 controls={true}
                 playIcon={
                   <>
                     <FaPlay className="text-white bg-transparent text-5xl" />
                   </>
                 }
+                onPlay={() => {
+                  if (user.userId && video) {
+                    addToHistory(user.userId, video?.id);
+                  }
+                }}
               ></ReactPlayer>
             </div>
             <div className="video-details-title text-white mt-2">
-              The Office - Signs of a Declining Sitcom
+              {video?.title}
             </div>
             <div className="video-details-channel text-white mt-2 text-sm ">
-              <span className="border-b-2 pb-1">The Office-us </span>
+              <span className="border-b-2 pb-1">{video?.creator} </span>
             </div>
             <div className="like-section flex justify-end gap-6 mt-3    ">
               <div className="like-sec-items flex gap-1 items-center cursor-pointer">
-                <BiSolidLike className="text-white text-xl" />
-                <span className="text-white text-sm">Like</span>
+                {!user.userId ? (
+                  <AiOutlineLike
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                    className="text-white text-xl"
+                  />
+                ) : likeLoader ? (
+                  <></>
+                ) : likeText == "Liked" ? (
+                  <BiSolidLike
+                    onClick={handleLike}
+                    className="text-white text-xl"
+                  />
+                ) : (
+                  <AiOutlineLike
+                    onClick={handleLike}
+                    className="text-white text-xl"
+                  />
+                )}
+
+                {!user.userId ? (
+                  <span
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                    className="text-white text-sm"
+                  >
+                    Like
+                  </span>
+                ) : likeLoader ? (
+                  <CustomLoader />
+                ) : (
+                  <span onClick={handleLike} className="text-white text-sm">
+                    {likeText}
+                  </span>
+                )}
               </div>
               <div className="like-sec-items flex gap-1 items-center cursor-pointer">
-                <FaRegClock className="text-white text-xl" />
-                <span className="text-white text-sm">Watch Later</span>
+                {!user.userId ? (
+                  <FaRegClock
+                    onClick={() => navigate("/login")}
+                    className="text-white text-xl"
+                  />
+                ) : wLoader ? (
+                  <></>
+                ) : (
+                  <FaRegClock
+                    onClick={handleWatchlater}
+                    className="text-white text-xl"
+                  />
+                )}
+
+                {!user.userId ? (
+                  <span
+                    onClick={() => navigate("/login")}
+                    className="text-white text-sm"
+                  >
+                    Add to Watchlater
+                  </span>
+                ) : wLoader ? (
+                  <CustomLoader />
+                ) : (
+                  <span
+                    onClick={handleWatchlater}
+                    className="text-white text-sm"
+                  >
+                    {watchlaterText}
+                  </span>
+                )}
               </div>
               <div className="like-sec-items flex gap-1 items-center cursor-pointer">
                 <MdOutlinePlaylistAdd className="text-white text-xl" />
                 <span className="text-white text-sm">Add to Playlist</span>
               </div>
             </div>
+            <div className="flex w-full  h-[60vh] bg-white mt-4  mb-4 overflow-y-scroll"></div>
           </div>
           <div className="vertical-video-grid flex flex-col justify-center items-center gap-2 ps-5  basis-[30%]">
-                    {[1,2,3].map(()=>(
-                        <VideoCard></VideoCard>
-                    ))}
+            {videos
+              .filter((vid) => {
+                if (id) {
+                  return vid.id != parseInt(id);
+                }
+              })
+              .slice(0, 3)
+              .map((vid) => (
+                <VideoCard video={vid}></VideoCard>
+              ))}
           </div>
         </div>
       </div>
+      <BottomBar></BottomBar>
     </>
   );
 }

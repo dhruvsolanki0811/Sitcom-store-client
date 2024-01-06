@@ -10,7 +10,7 @@ function Sidebar() {
 const navigate=useNavigate()
   return (
     <>
-      <div className="sidebar-sec sticky z-10 top-[5.4rem] flex flex-col items-center w-[5rem] h-full mt-2  gap-4">
+      <div className="sidebar-sec sticky z-10 top-[4.4rem] flex flex-col items-center pt-2 h-full gap-4">
         <div onClick={()=>navigate("/")} className="sidebar-items flex flex-col items-center justify-center gap-2 text-white ">
           <AiOutlineHome className="sidebar-items-icons   text-[4vh]" />
           <div className="sidebar-items-text text-[2.2vh] ">Home</div>

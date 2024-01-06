@@ -1,14 +1,18 @@
-import './App.css'
-import { Routespath } from './Routespath'
+import { useEffect } from "react";
+import "./App.css";
+import { Routespath } from "./Routespath";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-
+ 
+  
   return (
-  <>
-  <Routespath></Routespath>
-
-  </>
-  )
+    <>
+      <ToastContainer theme="colored"/>
+      <Routespath ></Routespath>
+    </>
+  );
 }
 
-export default App
+export default App;

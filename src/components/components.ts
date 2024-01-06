@@ -3,3 +3,5 @@ export {VideoCard} from "./VideoCard/VideoCard"
 export {Sidebar} from './Sidebar/Sidebar'
 export {PlayListcard} from "./PlayListcard/PlayListcard"
 export {EmptyCard} from "./EmptyCard/EmptyCard"
+export {BottomBar} from "./BottomBar/BottomBar"
+export {CustomLoader} from './Loader/Loader'
