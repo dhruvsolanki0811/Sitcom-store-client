@@ -1,12 +1,8 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import {  persist } from "zustand/middleware";
 import { axiosInstance } from "../axios/axios";
 import { toast } from "react-toastify";
-import {FormData as User} from './Authstore'
-type DevtoolsStore = {
-  showDevtools: boolean;
-  setShowDevtools: (showDevtools: boolean) => void;
-};
+
 
 interface Video {
   id: number ;
@@ -279,7 +275,7 @@ export const useVideoStore = create<VideoStore>()(
             },
             createPlaylist:async(title)=>{
               try {
-                const resp=await axiosInstance.post('/video/playlist/create/',{title:title})
+                await axiosInstance.post('/video/playlist/create/',{title:title})
                 toast.success('Playlist created')
 
               } catch (error) {

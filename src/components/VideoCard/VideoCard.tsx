@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaRegClock } from "react-icons/fa";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useVideoStore } from "../../store/Videostore";
-import { PlayListcard } from "../components";
 import { PlaylistModal } from "../PlaylistModal/PlaylistModal";
 import { useUserAuthStore } from "../../store/Authstore";
 
@@ -29,19 +28,15 @@ function VideoCard({
   playlistId?: number;
 }) {
   const navigate = useNavigate();
-  const [watchLoader, setWatchLoader] = useState(false);
   const [WatchPresent, setWatchPresent] = useState(false);
 
   const [isPlaylistOpen, setPlaylistOpen] = useState(false);
   const openModal = () => {
     if (user.userId) {
-      setWatchLoader(true);
       watchLaterStatus(video.id)
         .then((response: boolean) => {
           setWatchPresent(response);
-          setWatchLoader(false);
-        })
-        .catch(() => setWatchLoader(false));
+        });
     }
     setPlaylistOpen(true);
   };
@@ -69,7 +64,6 @@ function VideoCard({
   } = useVideoStore();
 
   const handleWatchLater = () => {
-    setWatchLoader(true);
     if (WatchPresent) {
       deleteWatchlater(video.id).then(() => {
         watchLaterStatus(video.id).then((res: boolean) => {
@@ -78,7 +72,6 @@ function VideoCard({
           } else {
             setWatchPresent(false);
           }
-          setWatchLoader(false);
         });
       });
     } else if (!WatchPresent) {
@@ -89,7 +82,6 @@ function VideoCard({
           } else {
             setWatchPresent(false);
           }
-          setWatchLoader(false);
         });
       });
     }

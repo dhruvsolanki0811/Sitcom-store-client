@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./App.css";
 import { Routespath } from "./Routespath";
 import { ToastContainer } from "react-toastify";

@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom"
 import {  PiSuitcaseDuotone } from "react-icons/pi";
 import { IoPeopleOutline } from "react-icons/io5";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
-import { LuUser2 } from "react-icons/lu";
 
 function BottomBar() {
     const navigate=useNavigate()

@@ -28,7 +28,6 @@ function SingleVideoPage() {
     videos,
     getVideo,
     addToHistory,
-    loader,
     likedStatus,
     addLiked,
     deleteLiked,
@@ -38,7 +37,6 @@ function SingleVideoPage() {
     deleteWatchlater,
   } = useVideoStore();
   const { user } = useUserAuthStore();
-  const [WatchPresent, setWatchPresent] = useState(false);
 
   const [isPlaylistOpen, setPlaylistOpen] = useState(false);
   const openModal = () => {

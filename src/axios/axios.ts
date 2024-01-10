@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
           }
         })
     }})
-    .catch((error) => {
+    .catch(() => {
       useUserAuthStore.getState().logout();
     });
         

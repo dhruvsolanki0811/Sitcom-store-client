@@ -1,7 +1,7 @@
 import { Sidebar } from "../../components/Sidebar/Sidebar";
 import { BottomBar, CustomLoader, Navbar, VideoCard } from "../../components/components";
 import banner from "../../assets/brooklyn99-banner.jpg";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useVideoStore } from "../../store/Videostore";
 function Homepage() {
   const {getVideo,loader,videos}=useVideoStore()

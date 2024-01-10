@@ -8,7 +8,7 @@ import { useUserAuthStore } from "../../../store/Authstore";
 
 function AuthSignin() {
     const navigate=useNavigate()
-    const {signup,loader}=useUserAuthStore()
+    const {signup}=useUserAuthStore()
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
