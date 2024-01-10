@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { axiosInstance } from "../axios/axios";
 import { toast } from "react-toastify";
-interface FormData {
+export interface FormData {
   firstname: string | null;
   lastname: string | null;
   email: string | null;

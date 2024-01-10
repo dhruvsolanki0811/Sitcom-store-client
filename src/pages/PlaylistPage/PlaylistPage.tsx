@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Sidebar } from "../../components/Sidebar/Sidebar";
 import {
   BottomBar,
+  CustomLoader,
   EmptyCard,
   Navbar,
   PlayListcard,
@@ -9,7 +10,7 @@ import {
 import { useVideoStore } from "../../store/Videostore";
 
 function PlaylistPage() {
-  const { playlists, getPlaylists } = useVideoStore();
+  const { playlists, getPlaylists, loader } = useVideoStore();
 
   useEffect(() => {
     getPlaylists();
@@ -19,7 +20,11 @@ function PlaylistPage() {
       <Navbar showSearch={false}></Navbar>
       <div className="main-content flex w-full max-w-[100vw] ">
         <Sidebar></Sidebar>
-        {false ? (
+        {loader ? (
+          <div className="playlist-grid flex w-full flex-wrap justify-center pt-2 ps-3 pe-3 gap-9">
+            <CustomLoader />
+          </div>
+        ) : playlists.length == 0 ? (
           <EmptyCard message="YOU HAVE 0 PLAYLISTS !" type="Add to Playlist" />
         ) : (
           <div className="playlist-grid flex w-full flex-wrap justify-center pt-2 ps-3 pe-3 gap-9">

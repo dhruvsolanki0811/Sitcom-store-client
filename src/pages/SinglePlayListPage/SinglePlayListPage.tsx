@@ -5,7 +5,7 @@ import { useVideoStore } from "../../store/Videostore";
 
 function SinglePlayListPage() {
   const { id } = useParams();
-  const {getPlaylistVideo,playlistVideos}=useVideoStore()
+  const {getPlaylistVideo,playlistVideos,loader}=useVideoStore()
   useEffect(() => {
     if(id)
     {getPlaylistVideo(parseInt(id))}
@@ -20,7 +20,9 @@ function SinglePlayListPage() {
         <div className="content-wrapper items-center w-full h-full flex flex-col ps-1 h-full">
         
           <div className="video-grid flex flex-wrap justify-center gap-3 p-1">
-            {
+            {loader?
+            <CustomLoader></CustomLoader>
+            :
             playlistVideos.length==0?
             <EmptyCard message="There is currently 0 videos to your playlist" type="View Videos" />
             :

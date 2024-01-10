@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { axiosInstance } from "../axios/axios";
 import { toast } from "react-toastify";
-
+import {FormData as User} from './Authstore'
 type DevtoolsStore = {
   showDevtools: boolean;
   setShowDevtools: (showDevtools: boolean) => void;
@@ -24,7 +24,10 @@ interface Playlist{
   title: string,
   videos:Video[]
 }
-interface VideoStore extends DevtoolsStore {
+
+
+
+interface VideoStore  {
   loader: boolean;
   video: Video | null;
   videos: Video[];
@@ -64,23 +67,26 @@ interface VideoStore extends DevtoolsStore {
   removeFromPlaylist:(playlistId:number,videoId:number)=>Promise<void>,
   getPlaylistByVideo:(videoId:number)=>Promise<any>
 
+
+
+
 }
 
 export const useVideoStore = create<VideoStore>()(
-  devtools(
+  // devtools(
     persist(
       (set) => {
         return {
           loader: false,
           video: null,
           videos: [],
-          history: [],
+          history: [],  
           liked:[],
           watchlater:[],
 
 
-          showDevtools: false, // Initial value for devtools visibility
-          setShowDevtools: (showDevtools) => set({ showDevtools }),
+          // showDevtools: false, // Initial value for devtools visibility
+          // setShowDevtools: (showDevtools) => set({ showDevtools }),
           
           
           getVideo: async (filter) => {
@@ -96,7 +102,7 @@ export const useVideoStore = create<VideoStore>()(
               return response.data;
             } catch (error) {
               set({ loader: false });
-              console.log(error,"aaassaaaaaaa");
+              console.log(error);
             }
           },
           getSingleVideo: async (id) => {
@@ -111,7 +117,7 @@ export const useVideoStore = create<VideoStore>()(
             } catch (error) {
               set({ loader: false });
 
-              console.log(error,"aaaaaaaaaa");
+              console.log(error);
             }
           },
           
@@ -181,7 +187,7 @@ export const useVideoStore = create<VideoStore>()(
                 set({loader:true})
                 const resp=await axiosInstance(`/video/liked/check/${id}/`)
                 set({loader:false})
-                console.log(resp.data,"Aaa")
+                console.log(resp.data)
                 return resp.data.is_liked
               }
               catch(error){
@@ -335,6 +341,6 @@ export const useVideoStore = create<VideoStore>()(
         name: "video", // key under which the state will be stored
         getStorage: () => localStorage, // use localStorage as the storage engine
       }
-    )
+    // )
   )
 );

@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useUserAuthStore } from "../store/Authstore";
 import { APIBASEURL } from "../store/store";
-import { Navigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
+axios.defaults.withCredentials = true;
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "https://sitcomstore.onrender.com/api/",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -30,20 +30,17 @@ axiosInstance.interceptors.response.use(
         'Content-Type': 'application/json',
         // Add any other headers if needed
     },}).then(async (response) => {
-      console.log(response)
-      if(response.status==401 && response.statusText=='Unauthorized'){
-        console.log("aaaaaaaaa")
+      if(response.status==401 ){
         await fetch(`${APIBASEURL}/accounts/logout/`,{method:'POST'}).then((resp)=>{
-          console.log("ok",resp)
           if(resp.status==200 ){
-            console.log("not")
+              
             useUserAuthStore.setState({ user: { userEmail: null, userId: null }, loader: false} )
+
           }
         })
     }})
     .catch((error) => {
-      console.error(error, "Aaaaaaaa");
-      useUserAuthStore().logout();
+      useUserAuthStore.getState().logout();
     });
         
       

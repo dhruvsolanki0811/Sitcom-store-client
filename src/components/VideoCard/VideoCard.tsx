@@ -34,13 +34,20 @@ function VideoCard({
 
   const [isPlaylistOpen, setPlaylistOpen] = useState(false);
   const openModal = () => {
+    if (user.userId) {
+      setWatchLoader(true);
+      watchLaterStatus(video.id)
+        .then((response: boolean) => {
+          setWatchPresent(response);
+          setWatchLoader(false);
+        })
+        .catch(() => setWatchLoader(false));
+    }
     setPlaylistOpen(true);
-    console.log("open");
   };
 
   const closeModal = () => {
     setPlaylistOpen(false);
-    console.log("close222");
   };
 
   const [ShowMenu, setShowMenu] = useState(false);
@@ -58,26 +65,14 @@ function VideoCard({
     removeFromPlaylist,
     getPlaylistVideo,
     watchLaterStatus,
-    addWatchlater
+    addWatchlater,
   } = useVideoStore();
-  useEffect(() => {
-    if (user.userId) {
-      setWatchLoader(true);
-      watchLaterStatus(video.id)
-        .then((response:boolean) => {
-          setWatchPresent(response) 
-          setWatchLoader(false);
-        })
-        .catch(() => setWatchLoader(false));
-    }
-    console.log(1)
-  }, []);
-  const handleWatchLater=()=>{
+
+  const handleWatchLater = () => {
     setWatchLoader(true);
     if (WatchPresent) {
       deleteWatchlater(video.id).then(() => {
         watchLaterStatus(video.id).then((res: boolean) => {
-          console.log(res);
           if (res) {
             setWatchPresent(true);
           } else {
@@ -86,10 +81,9 @@ function VideoCard({
           setWatchLoader(false);
         });
       });
-    } else if (!WatchPresent ) {
+    } else if (!WatchPresent) {
       addWatchlater(user.userId, video.id).then(() => {
         watchLaterStatus(video.id).then((res: boolean) => {
-          console.log(res);
           if (res) {
             setWatchPresent(true);
           } else {
@@ -99,7 +93,7 @@ function VideoCard({
         });
       });
     }
-  }
+  };
   const handleTrashButton = () => {
     if (type == "history") {
       deleteHistory(video.id).then(() => {
@@ -165,19 +159,26 @@ function VideoCard({
           {ShowMenu && (
             <>
               <div className="show-menu flex flex-col gap-1 absolute bg-[#1f2028] mb-[15px] ms-[5rem] h-[4.5rem]  w-[10rem] rounded-[10px]">
-                <div onClick={handleWatchLater} className="menu-items ps-3 pt-2 pb-2 flex gap-2 items-center rounded-[6px] border-white border-[1px] border-solid">
+                <div
+                  onClick={handleWatchLater}
+                  className="menu-items ps-3 pt-2 pb-2 flex gap-2 items-center rounded-[6px] border-white border-[1px] border-solid"
+                >
                   <FaRegClock className="text-[1.2rem]"></FaRegClock>
-                  <div className="menu-text">{WatchPresent?"Remove from watchlater":"Add to watchlater"}</div>
+                  <div className="menu-text">
+                    {WatchPresent
+                      ? "Remove from watchlater"
+                      : "Add to watchlater"}
+                  </div>
                 </div>
                 <div
                   onClick={() => {
                     if (user.userId) {
-                      openModal;
+                      openModal();
                     } else {
                       navigate("/login");
                     }
                   }}
-                  className="menu-items h-10 ps-3 pt-2 pb-2 flex gap-2 items-center border-white rounded-[6px] border-[1px] border-solid"
+                  className="menu-items bg-[#1f2028] h-10 ps-3 pt-2 pb-2 flex gap-2 items-center border-white rounded-[6px] border-[1px] border-solid"
                 >
                   <MdOutlinePlaylistAdd className="text-[1.2rem]"></MdOutlinePlaylistAdd>
 

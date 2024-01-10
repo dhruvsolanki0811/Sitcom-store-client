@@ -1,5 +1,5 @@
 import  { useEffect } from 'react'
-import { BottomBar, Navbar, VideoCard } from '../../components/components'
+import { BottomBar, CustomLoader, Navbar, VideoCard } from '../../components/components'
 import { Sidebar } from '../../components/Sidebar/Sidebar'
 import { useVideoStore } from '../../store/Videostore'
 
@@ -7,7 +7,6 @@ function ExplorePage() {
   const {getVideo,loader,videos}=useVideoStore()
     useEffect(()=>{
         getVideo()
-        console.log("...")
     },[])
   
   return (
@@ -32,7 +31,9 @@ function ExplorePage() {
           </div>
           
           <div className="video-grid flex flex-wrap justify-center mt-2 gap-3  p-1">
-            {videos.map((vid) => (
+            {loader?
+            <CustomLoader type={true}/>
+            :videos.map((vid) => (
               <VideoCard video={vid}></VideoCard>
             ))}
           </div>

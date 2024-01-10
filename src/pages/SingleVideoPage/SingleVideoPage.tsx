@@ -1,6 +1,7 @@
 import { Sidebar } from "../../components/Sidebar/Sidebar";
 import {
   BottomBar,
+  CommentBox,
   CustomLoader,
   Navbar,
   VideoCard,
@@ -16,6 +17,7 @@ import { useEffect, useState } from "react";
 import { useVideoStore } from "../../store/Videostore";
 import { useUserAuthStore } from "../../store/Authstore";
 import { AiOutlineLike } from "react-icons/ai";
+import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 
 function SingleVideoPage() {
   const navigate = useNavigate();
@@ -36,6 +38,15 @@ function SingleVideoPage() {
     deleteWatchlater,
   } = useVideoStore();
   const { user } = useUserAuthStore();
+  const [WatchPresent, setWatchPresent] = useState(false);
+
+  const [isPlaylistOpen, setPlaylistOpen] = useState(false);
+  const openModal = () => {
+    setPlaylistOpen(true);
+  };
+  const closeModal = () => {
+    setPlaylistOpen(false);
+  };
   const [likeText, SetLikeText] = useState<string>("Like");
   const [watchlaterText, SetwatchlaterText] =
     useState<string>("Add to Watchlater");
@@ -44,7 +55,6 @@ function SingleVideoPage() {
   useEffect(() => {
     SetlikeLoader(true);
     setWLoader(true);
-    console.log(wLoader, "o1");
     if (id) {
       getVideo();
       getSingleVideo(parseInt(id)).then((res) => {
@@ -52,9 +62,7 @@ function SingleVideoPage() {
       });
     }
     if (user.userId && id) {
-      console.log(id);
       likedStatus(parseInt(id)).then((res: boolean) => {
-        console.log(res);
         if (res) {
           SetLikeText("Liked");
         } else {
@@ -63,7 +71,6 @@ function SingleVideoPage() {
       });
 
       watchLaterStatus(parseInt(id)).then((res: boolean) => {
-        console.log(res);
         if (res) {
           SetwatchlaterText("Remove from Watchlater");
         } else {
@@ -82,7 +89,6 @@ function SingleVideoPage() {
     if (likeText == "Liked") {
       deleteLiked(video.id).then(() => {
         likedStatus(video.id).then((res: boolean) => {
-          console.log(res);
           if (res) {
             SetLikeText("Liked");
           } else {
@@ -94,7 +100,6 @@ function SingleVideoPage() {
     } else if (likeText == "Like") {
       addLiked(user.userId, video.id).then(() => {
         likedStatus(video.id).then((res: boolean) => {
-          console.log(res);
           if (res) {
             SetLikeText("Liked");
           } else {
@@ -112,27 +117,23 @@ function SingleVideoPage() {
     if (watchlaterText == "Remove from Watchlater") {
       deleteWatchlater(video.id).then(() => {
         watchLaterStatus(video.id).then((res: boolean) => {
-          console.log(res);
           if (res) {
             SetwatchlaterText("Remove from Watchlater");
           } else {
             SetwatchlaterText("Add to Watchlater");
           }
           setWLoader(false);
-          console.log(likeLoader, loader, wLoader, "pe");
         });
       });
     } else if (watchlaterText == "Add to Watchlater") {
       addWatchlater(user.userId, video.id).then(() => {
         watchLaterStatus(video.id).then((res: boolean) => {
-          console.log(res);
           if (res) {
             SetwatchlaterText("Remove from Watchlater");
           } else {
             SetwatchlaterText("Add to Watchlater");
           }
           setWLoader(false);
-          console.log(likeLoader, loader, setWLoader, "pe");
         });
       });
     }
@@ -245,13 +246,31 @@ function SingleVideoPage() {
                   </span>
                 )}
               </div>
-              <div className="like-sec-items flex gap-1 items-center cursor-pointer">
+              <div
+              onClick={() => {
+                if (user.userId) {
+                  openModal();
+                } else {
+                  navigate("/login");
+                }
+              }}
+              className="like-sec-items flex gap-1 items-center cursor-pointer">
                 <MdOutlinePlaylistAdd className="text-white text-xl" />
-                <span className="text-white text-sm">Add to Playlist</span>
+                <span 
+                 className="text-white text-sm">Add to Playlist</span>
+                
               </div>
+              
             </div>
-            <div className="flex w-full  h-[60vh] bg-white mt-4  mb-4 overflow-y-scroll"></div>
-          </div>
+            {(isPlaylistOpen && id) && (
+                    <PlaylistModal
+                      id={parseInt(id)}
+                      onClose={closeModal}
+                      isOpen={isPlaylistOpen}
+                    />
+                  )}
+                  {id&&<CommentBox videoId={parseInt(id)}></CommentBox>}
+            </div>
           <div className="vertical-video-grid flex flex-col justify-center items-center gap-2 ps-5  basis-[30%]">
             {videos
               .filter((vid) => {
@@ -259,7 +278,7 @@ function SingleVideoPage() {
                   return vid.id != parseInt(id);
                 }
               })
-              .slice(0, 3)
+              .slice(0, 4)
               .map((vid) => (
                 <VideoCard video={vid}></VideoCard>
               ))}

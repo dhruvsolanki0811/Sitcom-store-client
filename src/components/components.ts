@@ -5,3 +5,4 @@ export {PlayListcard} from "./PlayListcard/PlayListcard"
 export {EmptyCard} from "./EmptyCard/EmptyCard"
 export {BottomBar} from "./BottomBar/BottomBar"
 export {CustomLoader} from './Loader/Loader'
+export {CommentBox} from './CommentBox/CommentBox'

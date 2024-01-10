@@ -7,7 +7,6 @@ function Homepage() {
   const {getVideo,loader,videos}=useVideoStore()
     useEffect(()=>{
         getVideo()
-        console.log("...")
     },[])
   
   return (

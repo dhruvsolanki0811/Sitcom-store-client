@@ -21,7 +21,6 @@ function Navbar({showSearch=true}:{showSearch?:boolean}) {
 
     const handleSearch = (searchText: string) => {
       // Handle your search logic here
-      console.log("Searching for:", searchText);
       // For example, you can navigate to a search results page
       // navigate(`/search?q=${searchText}`);
       getVideo({type:"search",value:searchText})
@@ -41,7 +40,7 @@ function Navbar({showSearch=true}:{showSearch?:boolean}) {
     return (
     <>
     <div className="navbar sticky z-[100] top-0 flex justify-between items-center ps-5 pe-5 pt-3 w-full h-[10vh] " >
-      <div onClick={()=>{navigate('/')}} className="logo font-bold text-white flex items-center gap-2">
+      <div onClick={()=>{navigate('/')}} className="logo cursor-pointer font-bold text-white flex items-center gap-2">
       <GiSofa className="text-xl" />
         SitcomStore
       </div>

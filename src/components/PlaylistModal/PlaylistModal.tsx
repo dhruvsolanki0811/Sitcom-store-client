@@ -43,17 +43,14 @@ function PlaylistModal({
 
   const handleOutsideClick = (e: MouseEvent) => {
     const closeButton = document.querySelector(".close-btn");
-    console.log(e.target, closeButton);
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       closeModal();
     }
     if (e.target == closeButton) {
-      console.log("bru");
       closeModal();
     }
   };
   useEffect(() => {
-    console.log(id);
 
     document.addEventListener("mousedown", handleOutsideClick);
     if (id)
@@ -118,7 +115,7 @@ function PlaylistModal({
 
 />
 
-                  <div className="text truncate">{playlist.playlist_name}</div>
+                  <div className="text truncate text-white  text-xs font-semibold">{playlist.playlist_name}</div>
                 </div>
               ))}
             <form
@@ -130,18 +127,18 @@ function PlaylistModal({
                 name="title"
                 value={titleInput}
                 onChange={inputUpdate}
-                className="playlist-input mt-3 border-b-[1px] border-b-[1px] border-b-white bg-transparent w-full text-white p-1 outline-none"
+                className="playlist-input mt-3 text-xs border-b-[1px] border-b-[1px] border-b-white bg-transparent w-full text-white p-1 outline-none"
                 required
                 placeholder="Enter Playlist Name"
               />
               {user.userId ? (
-                <button type="submit" className="btn mt-3">
+                <button type="submit" className="btn mt-3 text-white font-semibold text-xs">
                   Create
                 </button>
               ) : (
                 <button
                   onClick={() => navigate("/login")}
-                  className="btn mt-3 "
+                  className="btn mt-3 text-white font-semibold text-xs"
                 >
                   Create
                 </button>

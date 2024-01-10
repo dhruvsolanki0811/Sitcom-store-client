@@ -1,9 +1,9 @@
 import { useEffect } from "react"
-import { BottomBar, EmptyCard, Navbar, Sidebar, VideoCard } from "../../components/components"
+import { BottomBar, CustomLoader, EmptyCard, Navbar, Sidebar, VideoCard } from "../../components/components"
 import { useVideoStore } from "../../store/Videostore"
 
 function LikedVideoPage() {
-  const {liked,getLiked} =useVideoStore()
+  const {liked,getLiked,loader} =useVideoStore()
   useEffect(()=>{
     getLiked()
   },[])
@@ -15,7 +15,11 @@ function LikedVideoPage() {
         <div className="content-wrapper items-center w-full flex flex-col ps-1">
           
           <div className="video-grid flex flex-wrap justify-center gap-3 p-1">
-            {liked.length==0? <EmptyCard message="Like Videos Is Currently Empty !" type="View videos"></EmptyCard>:liked.map((vid) => (
+            {
+            loader?
+            <CustomLoader></CustomLoader>
+            :
+            liked.length==0? <EmptyCard message="Like Videos Is Currently Empty !" type="View videos"></EmptyCard>:liked.map((vid) => (
               <>
                 <VideoCard video={vid} type="like"></VideoCard>
               </>
