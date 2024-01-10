@@ -38,9 +38,9 @@ function Homepage() {
           </div>
           
           <div className="video-grid flex flex-wrap justify-center mt-2 gap-3  p-1">
-            {loader?
+            {loader ?
           <CustomLoader type={true}></CustomLoader>
-            : videos.map((vid) => (
+            : videos && videos.map((vid) => (
               <VideoCard video={vid}></VideoCard>
             ))}
           </div>
