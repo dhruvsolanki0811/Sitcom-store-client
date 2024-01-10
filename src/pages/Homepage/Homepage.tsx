@@ -40,7 +40,7 @@ function Homepage() {
           <div className="video-grid flex flex-wrap justify-center mt-2 gap-3  p-1">
             {loader?
           <CustomLoader type={true}></CustomLoader>
-            :videos.map((vid) => (
+            : videos.map((vid) => (
               <VideoCard video={vid}></VideoCard>
             ))}
           </div>
