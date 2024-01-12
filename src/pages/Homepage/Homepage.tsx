@@ -1,15 +1,16 @@
 import { Sidebar } from "../../components/Sidebar/Sidebar";
-import { BottomBar, CustomLoader, Navbar, VideoCard } from "../../components/components";
+import { BottomBar, Navbar } from "../../components/components";
 import banner from "../../assets/brooklyn99-banner.jpg";
-import { useEffect, useState } from "react";
-import { Video, useVideoStore } from "../../store/Videostore";
+import { useEffect } from "react";
+import {  useVideoStore } from "../../store/Videostore";
 function Homepage() {
-  const [vid,setVid] =useState<Video[]>([])
-  const {getVideo,loader}=useVideoStore()
+  // const [vid,setVid] =useState<Video[]>([])
+  const {getVideo}=useVideoStore()
     useEffect(()=>{
-        getVideo().then((res)=>{
-        if(res)
-          setVid(res)})
+        getVideo()
+        // .then((res)=>{
+        // if(res)
+        //   setVid(res)})
     },[])
   
   return (
