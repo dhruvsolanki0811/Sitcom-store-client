@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { BottomBar, Navbar, PlayListcard, Sidebar, VideoCard } from "../../components/components";
 import { useVideoStore } from "../../store/Videostore";
+import { useNavigate } from "react-router-dom";
 
 function LibraryPage() {
+  const navigate =useNavigate()
   const { getHistory,getLiked,getPlaylists,getWatchlater,history,watchlater,liked,playlists } = useVideoStore();
   useEffect(() => {
     getLiked()
@@ -23,25 +25,25 @@ function LibraryPage() {
                 <VideoCard video={vid} type="library"/>
               ))}
             </div>
-            <div className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[3.4rem] border-white border-[1px] border-solid p-1">Liked</div>
+            <div onClick={()=>navigate('/likes')} className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[3.4rem] border-white border-[1px] border-solid p-1">Liked</div>
           </div>
           <div className="history-row flex flex-col border-b-white border-b-[2px] border-b-solid pt-4 pb-4">
             <div className="card-container flex flex-nowrap overflow-hidden overflow-x-auto	gap-2">
               {history.map((vid) => (
-                <VideoCard video={vid} />
+                <VideoCard video={vid} type="library"/>
               ))}
             </div>
-            <div className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[3.9rem] border-white border-[1px] border-solid p-1">History</div>
+            <div onClick={()=>navigate('/history')} className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[3.9rem] border-white border-[1px] border-solid p-1">History</div>
 
           </div>
 
           <div className="watchlater-row flex flex-col border-b-white border-b-[2px] border-b-solid pt-4 pb-4">
             <div className="card-container flex flex-nowrap overflow-hidden overflow-x-auto	gap-2">
               {watchlater.map((vid) => (
-                <VideoCard video={vid} />
+                <VideoCard video={vid} type="library"/>
               ))}
             </div>
-            <div className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[6rem] border-white border-[1px] border-solid p-1">Watchlater</div>
+            <div onClick={()=>navigate('/watchlater')} className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[6rem] border-white border-[1px] border-solid p-1">Watchlater</div>
 
           </div>
 
@@ -65,7 +67,7 @@ function LibraryPage() {
             )}
             
             </div>
-            <div className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[4.3rem] border-white border-[1px] border-solid p-1">Playlist</div>
+            <div onClick={()=>navigate('/playlists')} className="btn mt-2 rounded-[4px]  text-white flex justify-center w-[4.3rem] border-white border-[1px] border-solid p-1">Playlist</div>
 
           </div>
         </div>
