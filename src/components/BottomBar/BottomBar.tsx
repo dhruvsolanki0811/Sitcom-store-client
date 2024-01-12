@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import {  PiSuitcaseDuotone } from "react-icons/pi";
-import { IoPeopleOutline } from "react-icons/io5";
-import { HiOutlineBuildingOffice } from "react-icons/hi2";
+import { AiOutlineHome } from "react-icons/ai";
+import { FaRegCompass } from "react-icons/fa";
+import { MdVideoLibrary } from "react-icons/md";
 
 function BottomBar() {
     const navigate=useNavigate()
@@ -14,22 +14,23 @@ function BottomBar() {
               onClick={() => navigate("/")}
               className="nav-item btn-joblist flex flex-col items-center gap-1 text-[20px] text-white font-medium	m-2"
             >
-              <PiSuitcaseDuotone className="nav-items-logo "></PiSuitcaseDuotone>
+          <AiOutlineHome className="nav-items-logo" />
+
               <div className="text-[10px]">Home</div>
             </div>
             <div
-              onClick={() => navigate("/users")}
+              onClick={() => navigate("/explore")}
               className="nav-item btn-joblist flex flex-col items-center gap-1 text-white text-[20px] font-medium m-2 "
             >
-              <IoPeopleOutline className="nav-items-logo"></IoPeopleOutline>
-              <div className="text-[10px]">People</div>
+              <FaRegCompass className="nav-items-logo"></FaRegCompass>
+              <div className="text-[10px]">Explore</div>
             </div>
             <div
-              onClick={() => navigate("/company")}
+              onClick={() => navigate("/library")}
               className="nav-item btn-joblist flex flex-col items-center gap-1 text-white text-[20px] font-medium m-2"
             >
-              <HiOutlineBuildingOffice className="nav-items-logo"></HiOutlineBuildingOffice>
-              <div className="text-[10px]">Company</div>
+              <MdVideoLibrary className="nav-items-logo"></MdVideoLibrary>
+              <div className="text-[10px]">Library</div>
             </div>
             
            

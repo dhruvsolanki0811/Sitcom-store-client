@@ -4,7 +4,7 @@ import { axiosInstance } from "../axios/axios";
 import { toast } from "react-toastify";
 
 
-interface Video {
+export interface Video {
   id: number ;
   title: string ;
   creator: string ;
@@ -21,6 +21,11 @@ interface Playlist{
   videos:Video[]
 }
 
+interface PlaylistModal {
+  id: number;
+  is_video_present: boolean;
+  playlist_name: string;
+}
 
 
 interface VideoStore  {
@@ -32,7 +37,7 @@ interface VideoStore  {
     type: string;
     value: string;
   }) => Promise<Video[] | void>;
-  getSingleVideo: (id: number) => Promise<void>;
+  getSingleVideo: (id: number) => Promise<void|Video>;
 
   history: Video[];
   getHistory:()=>Promise<void>;
@@ -42,14 +47,14 @@ interface VideoStore  {
 
   liked:Video[];
   getLiked:()=>Promise<void>;
-  likedStatus:(id:number|null)=>any
+  likedStatus:(id:number|null)=>Promise<void|boolean>
   addLiked: (userId:number|null,id: number | null) => Promise<void>;
   deleteLiked:(id: number | null)=>Promise<void>
 
 
   watchlater:Video[];
   getWatchlater:()=>Promise<void>;
-  watchLaterStatus:(id:number|null)=>any
+  watchLaterStatus:(id:number|null)=>Promise<void|boolean>
   addWatchlater: (userId:number|null,id: number | null) => Promise<void>;
   deleteWatchlater:(id: number | null)=>Promise<void>
 
@@ -61,7 +66,7 @@ interface VideoStore  {
   getPlaylistVideo:(playlistId:number)=>Promise<void>,
   addToPlaylist:(playlistId:number,videoId:number)=>Promise<void>,
   removeFromPlaylist:(playlistId:number,videoId:number)=>Promise<void>,
-  getPlaylistByVideo:(videoId:number)=>Promise<any>
+  getPlaylistByVideo:(videoId:number)=>Promise<PlaylistModal[]|void>
 
 
 
@@ -92,7 +97,7 @@ export const useVideoStore = create<VideoStore>()(
               if (filter) {
                 url += `?${filter.type}=${filter.value}`;
               }
-              let response = await axiosInstance.get(url);
+              const response = await axiosInstance.get(url);
               set({ videos: response.data });
               set({ loader: false });
               return response.data;
@@ -105,7 +110,7 @@ export const useVideoStore = create<VideoStore>()(
             try {
               set({ loader: true });
 
-              let response = await axiosInstance.get(`/video/${id}/`);
+              const response = await axiosInstance.get(`/video/${id}/`);
               // set({video:response.data})
 
               set({ loader: false });
@@ -134,7 +139,7 @@ export const useVideoStore = create<VideoStore>()(
             try {
               set({ loader: true });
              
-              let response = await axiosInstance.get('/video/history/');
+              const response = await axiosInstance.get('/video/history/');
               set({ history: response.data });
               set({ loader: false });
             } catch (error) {
@@ -170,7 +175,7 @@ export const useVideoStore = create<VideoStore>()(
               try {
                 set({ loader: true });
                
-                let response = await axiosInstance.get('/video/liked/');
+                const response = await axiosInstance.get('/video/liked/');
                 set({ liked: response.data });
                 set({ loader: false });
               } catch (error) {
@@ -183,7 +188,6 @@ export const useVideoStore = create<VideoStore>()(
                 set({loader:true})
                 const resp=await axiosInstance(`/video/liked/check/${id}/`)
                 set({loader:false})
-                console.log(resp.data)
                 return resp.data.is_liked
               }
               catch(error){
@@ -219,7 +223,7 @@ export const useVideoStore = create<VideoStore>()(
               try {
                 set({ loader: true });
                
-                let response = await axiosInstance.get('/video/watchlater/');
+                const response = await axiosInstance.get('/video/watchlater/');
                 set({ watchlater: response.data });
                 set({ loader: false });
               } catch (error) {

@@ -1,14 +1,14 @@
 import { IoPerson } from "react-icons/io5";
-import { Navbar } from "../../../components/components";
+import { CustomLoader, Navbar } from "../../../components/components";
 import { FaKey, FaRegEye } from "react-icons/fa";
-import {  useState } from "react";
+import {  ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUserAuthStore } from "../../../store/Authstore";
 
 function AuthSignin() {
     const navigate=useNavigate()
-    const {signup}=useUserAuthStore()
+    const {signup,loader}=useUserAuthStore()
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -18,7 +18,7 @@ function AuthSignin() {
 
   const [passwordShown, setPasswordShown] = useState(false);
 
-  const handleChange = (e:any) => {
+  const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -26,7 +26,7 @@ function AuthSignin() {
     }));
   };
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e:FormEvent) => {
     e.preventDefault()
     if (
         formData.firstname.trim() === "" ||
@@ -35,7 +35,6 @@ function AuthSignin() {
         formData.password.trim() === ""
       ) {
         toast.error("All fields are required!");}
-    // Handle the form submission here, you can use formData to send the data to your backend or perform other actions
         signup(formData)
       setFormData({
         firstname:"",
@@ -112,12 +111,20 @@ function AuthSignin() {
                 className="cursor-pointer text-white text-l"
               />
             </div>
+            {loader?
+            <div className="login-box-button w-full h-[2rem] rounded-[10px] bg-[#05386b] mt-2 text-white flex justify-center items-center text-[1rem] font-semibold" onClick={handleSubmit}>
+            <CustomLoader></CustomLoader>
+          </div>:
             <button type='submit' className="login-box-button w-full h-[2rem] rounded-[10px] bg-[#05386b] mt-2 text-white flex justify-center items-center text-[1rem] font-semibold" onClick={handleSubmit}>
               Signup
-            </button>
-            <div onClick={()=>{navigate('/login')}} className="create-link text-white text-xs font-semibold mt-3">
+            </button>}
+            <div  className="create-link text-white text-xs font-semibold mt-3">
               Already have an Account?
             </div>
+            <div onClick={()=>{navigate('/login')}} className="create-link cursor-pointer text-[#05386b] font-semibold">
+              Signin
+            </div>
+          
           </form>
         </div>
       </div>

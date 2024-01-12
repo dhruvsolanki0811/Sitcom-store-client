@@ -14,7 +14,7 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 import "./SingleVideoPage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useVideoStore } from "../../store/Videostore";
+import { Video, useVideoStore } from "../../store/Videostore";
 import { useUserAuthStore } from "../../store/Authstore";
 import { AiOutlineLike } from "react-icons/ai";
 import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
@@ -22,7 +22,7 @@ import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 function SingleVideoPage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [video, setVideo] = useState<any>(null);
+  const [video, setVideo] = useState<Video|null>(null);
   const {
     getSingleVideo,
     videos,
@@ -56,11 +56,12 @@ function SingleVideoPage() {
     if (id) {
       getVideo();
       getSingleVideo(parseInt(id)).then((res) => {
-        setVideo(res);
+        if(res){
+        setVideo(res);}
       });
     }
     if (user.userId && id) {
-      likedStatus(parseInt(id)).then((res: boolean) => {
+      likedStatus(parseInt(id)).then((res: boolean|void) => {
         if (res) {
           SetLikeText("Liked");
         } else {
@@ -68,7 +69,7 @@ function SingleVideoPage() {
         }
       });
 
-      watchLaterStatus(parseInt(id)).then((res: boolean) => {
+      watchLaterStatus(parseInt(id)).then((res: boolean|void) => {
         if (res) {
           SetwatchlaterText("Remove from Watchlater");
         } else {
@@ -85,8 +86,9 @@ function SingleVideoPage() {
     SetlikeLoader(true);
 
     if (likeText == "Liked") {
+      if(video)
       deleteLiked(video.id).then(() => {
-        likedStatus(video.id).then((res: boolean) => {
+        likedStatus(video.id).then((res: boolean|void) => {
           if (res) {
             SetLikeText("Liked");
           } else {
@@ -96,8 +98,9 @@ function SingleVideoPage() {
         });
       });
     } else if (likeText == "Like") {
+      if(video)
       addLiked(user.userId, video.id).then(() => {
-        likedStatus(video.id).then((res: boolean) => {
+        likedStatus(video.id).then((res: boolean|void) => {
           if (res) {
             SetLikeText("Liked");
           } else {
@@ -113,8 +116,9 @@ function SingleVideoPage() {
 
     setWLoader(true);
     if (watchlaterText == "Remove from Watchlater") {
+      if(video)
       deleteWatchlater(video.id).then(() => {
-        watchLaterStatus(video.id).then((res: boolean) => {
+        watchLaterStatus(video.id).then((res: boolean|void) => {
           if (res) {
             SetwatchlaterText("Remove from Watchlater");
           } else {
@@ -124,8 +128,9 @@ function SingleVideoPage() {
         });
       });
     } else if (watchlaterText == "Add to Watchlater") {
+      if(video)
       addWatchlater(user.userId, video.id).then(() => {
-        watchLaterStatus(video.id).then((res: boolean) => {
+        watchLaterStatus(video.id).then((res: boolean|void) => {
           if (res) {
             SetwatchlaterText("Remove from Watchlater");
           } else {

@@ -9,7 +9,7 @@ export default defineConfig({
     eslintPlugin({
       // setup the plugin
       cache: false,
-      include: ['./src/**/*.js', './src/**/*.jsx'],
+      include: ['./src/**/*.ts', './src/**/*.tsx'],
       exclude: [],
     }),
   ],

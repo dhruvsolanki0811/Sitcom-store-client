@@ -9,12 +9,14 @@ import {
   SinglePlayListPage,
   LikedVideoPage,
   HistoryPage,
+  LibraryPage
+  
 } from "./pages/page";
 
 import { WatchLaterPage } from "./pages/WatchLaterPage/WatchLaterPage";
 import { RestrictAuth } from "./pages/Auth/restrict-auth";
 import { RequireAuth } from "./pages/Auth/require-auth";
-
+import { ErrorPage } from "./pages/ErrorPage";
 function Routespath() {
   return (
     <>
@@ -35,7 +37,11 @@ function Routespath() {
           <Route path="/playlists/:id" element={<SinglePlayListPage />}></Route>
           <Route path="/watchlater" element={<WatchLaterPage />}></Route>
           <Route path="/history" element={<HistoryPage />}></Route>
+          <Route path="/library" element={<LibraryPage />}></Route>
         </Route>
+
+        <Route path="*" element={<ErrorPage></ErrorPage>} />
+
       </Routes>
     </>
   );

@@ -1,14 +1,8 @@
-import {
-  ChangeEvent,
-  FormEvent,
-
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAuthStore } from "../../store/Authstore";
 import { useVideoStore } from "../../store/Videostore";
+import { CustomLoader } from "../components";
 interface Playlist {
   id: number;
   is_video_present: boolean;
@@ -25,6 +19,7 @@ function PlaylistModal({
 }) {
   const [videoPlaylist, setvideoPlaylist] = useState<Playlist[]>([]);
   const [titleInput, SetTitleInput] = useState("");
+  const [playlistLoader, SetPlaylistLoader] = useState(false);
 
   const { user } = useUserAuthStore();
   const {
@@ -50,45 +45,65 @@ function PlaylistModal({
     }
   };
   useEffect(() => {
-
+    SetPlaylistLoader(true);
+    console.log(playlistLoader);
     document.addEventListener("mousedown", handleOutsideClick);
-    if (id)
+  
+    if (id) {
       getPlaylistByVideo(id).then((res) => {
-        setvideoPlaylist(res);
+        if (res) {
+          setvideoPlaylist(res);
+        }
+        SetPlaylistLoader(false); // Move inside the .then() block
       });
+    } else {
+      SetPlaylistLoader(false); // Move inside the .then() block if id is not available
+    }
+  
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, []);
+  }, [id]);
   const inputUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     SetTitleInput(value);
   };
   const newPlaylistHandler = (e: FormEvent) => {
+    SetPlaylistLoader(true)
     e.preventDefault();
     createPlaylist(titleInput).then(() => {
       if (id)
         getPlaylistByVideo(id).then((res) => {
-          setvideoPlaylist(res);
+          if (res) setvideoPlaylist(res);
+          SetTitleInput("");
+          SetPlaylistLoader(false);    
         });
+      SetPlaylistLoader(false);
+
       SetTitleInput("");
     });
   };
 
-  const handleCheckBox = (checked:boolean, Playid: number) => {
+  const handleCheckBox = (checked: boolean, Playid: number) => {
     if (!checked && id) {
-        removeFromPlaylist(Playid, id).then(() =>
-          getPlaylistByVideo(id).then((res) => {
-            setvideoPlaylist(res);
-          })
-        );
-    }else if(checked && id){
-        
-        addToPlaylist(Playid, id).then(() =>
+      SetPlaylistLoader(true);
+      removeFromPlaylist(Playid, id).then(() => {
         getPlaylistByVideo(id).then((res) => {
-          setvideoPlaylist(res);
+          if (res) setvideoPlaylist(res);
+          SetPlaylistLoader(false);
+        });
+        SetPlaylistLoader(false);
+      });
+    } else if (checked && id) {
+      SetPlaylistLoader(true);
+      addToPlaylist(Playid, id).then(() =>
+        getPlaylistByVideo(id).then((res) => {
+          if (res) setvideoPlaylist(res);
+          SetPlaylistLoader(false);
         })
+        
       );
+      SetPlaylistLoader(true);
     }
   };
   return (
@@ -105,18 +120,25 @@ function PlaylistModal({
           <div className="close-btn w-full flex justify-end text-white">X</div>
 
           <div className="playlist-list  flex flex-col gap-1">
-            {videoPlaylist.map((playlist) => (
+            {playlistLoader ? (
+              <CustomLoader></CustomLoader>
+            ) : (
+              videoPlaylist.map((playlist) => (
                 <div className="li-items flex gap-3">
                   <input
                     type="checkbox"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => handleCheckBox(e.target.checked,playlist.id)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleCheckBox(e.target.checked, playlist.id)
+                    }
                     checked={playlist.is_video_present}
+                  />
 
-/>
-
-                  <div className="text truncate text-white  text-xs font-semibold">{playlist.playlist_name}</div>
+                  <div className="text truncate text-white  text-xs font-semibold">
+                    {playlist.playlist_name}
+                  </div>
                 </div>
-              ))}
+              ))
+            )}
             <form
               onSubmit={newPlaylistHandler}
               className="create-playlist-form"
@@ -131,7 +153,10 @@ function PlaylistModal({
                 placeholder="Enter Playlist Name"
               />
               {user.userId ? (
-                <button type="submit" className="btn mt-3 text-white font-semibold text-xs">
+                <button
+                  type="submit"
+                  className="btn mt-3 text-white font-semibold text-xs"
+                >
                   Create
                 </button>
               ) : (

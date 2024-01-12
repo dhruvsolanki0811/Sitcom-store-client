@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { axiosInstance } from "../axios/axios";
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+
 export interface FormData {
   firstname: string | null;
   lastname: string | null;
@@ -13,6 +15,10 @@ type DevtoolsStore = {
   showDevtools: boolean;
   setShowDevtools: (showDevtools: boolean) => void;
 };
+
+interface MyResponseData {
+  detail: string;
+}
 
 interface AuthStore extends DevtoolsStore {
   loader: boolean;
@@ -30,13 +36,13 @@ export const useUserAuthStore = create<AuthStore>()(
     persist(
       (set) => {
         return {
-          loader: false,
+          loader: false,  // <-- Initial state for loader is set to false
           user: { userId: null, userEmail: null },
           showDevtools: false, // Initial value for devtools visibility
           setShowDevtools: (showDevtools) => set({ showDevtools }),
           login: async (email, password) => {
-            set({ loader: true });
             try {
+              set({ loader: true });  
               const response = await axiosInstance.post("/accounts/login/", {
                 email: email,
                 password: password,
@@ -52,35 +58,35 @@ export const useUserAuthStore = create<AuthStore>()(
               toast.success("Successfully login");
             } catch (err) {
               set({ loader: false });
-              if((err as any).response.data){
-                toast.error((err as any).response.data.detail)
+
+              if ((err as AxiosError).response?.data) {
+                const detail = (err as AxiosError<MyResponseData>)?.response
+                  ?.data?.detail;
+                if (detail) {
+                  toast.error(detail);
+                } else {
+                  toast.error("Server error");
+                }
               }
-              
             }
           },
           logout: async () => {
-            set({ loader: true });
             try {
-              const resp=await axiosInstance.post("/accounts/logout/");
-              set({ user: { userEmail: null, userId: null }, loader: false });
-              console.log(resp)
+              await axiosInstance.post("/accounts/logout/");
+              set({ user: { userEmail: null, userId: null } });
             } catch (err) {
-              set({ loader: false });
-              set({ user: { userEmail: null, userId: null }, loader: false });
-              console.log(err);
-              if(err && (err as any)?.response &&(err as any).response.data){
-                toast.error((err as any).response.data)
-              }
+              set({ user: { userEmail: null, userId: null }});
             }
           },
           signup: async (formData: FormData) => {
-            set({ loader: true });
             try {
-              await axiosInstance.post('/accounts/',formData)
+              set({ loader: true });
+              await axiosInstance.post("/accounts/", formData);
               toast.success("Successfully User Registered");
+              set({ loader: false });
             } catch (error) {
-              set({ loader: false});
-              console.log(error)
+              set({ loader: false });
+              console.log(error);
             }
           },
         };

@@ -17,7 +17,7 @@ interface Video {
   image: string | null;
   url: string | null;
 }
-type typeProp = "list" | "like" | "watchlater" | "history" | "playlist";
+type typeProp = "list" | "like" | "watchlater" | "history" | "playlist"|"library";
 function VideoCard({
   type = "list",
   video,
@@ -34,7 +34,8 @@ function VideoCard({
   const openModal = () => {
     if (user.userId) {
       watchLaterStatus(video.id)
-        .then((response: boolean) => {
+        .then((response: void|boolean) => {
+          if(response)
           setWatchPresent(response);
         });
     }
@@ -66,7 +67,7 @@ function VideoCard({
   const handleWatchLater = () => {
     if (WatchPresent) {
       deleteWatchlater(video.id).then(() => {
-        watchLaterStatus(video.id).then((res: boolean) => {
+        watchLaterStatus(video.id).then((res: void|boolean) => {
           if (res) {
             setWatchPresent(true);
           } else {
@@ -76,7 +77,7 @@ function VideoCard({
       });
     } else if (!WatchPresent) {
       addWatchlater(user.userId, video.id).then(() => {
-        watchLaterStatus(video.id).then((res: boolean) => {
+        watchLaterStatus(video.id).then((res: boolean|void) => {
           if (res) {
             setWatchPresent(true);
           } else {
@@ -133,14 +134,14 @@ function VideoCard({
             <div className="video-channel">{video.creator}</div>
           </div>
 
-          {type == "list" ? (
+          {type == "list" && (
             <div
               onClick={toggleShow}
               className="video-option flex items-center text-[1rem] h-full"
             >
               <HiDotsVertical />
             </div>
-          ) : (
+          )} {(type=="like" || type=="watchlater" || type=="history" || type=="playlist")&&(
             <div
               onClick={handleTrashButton}
               className="video-option flex items-center text-[1rem] h-full"

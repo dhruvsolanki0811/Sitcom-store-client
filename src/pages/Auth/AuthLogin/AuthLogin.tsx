@@ -1,17 +1,26 @@
-import { Navbar } from "../../../components/components";
+import { CustomLoader, Navbar } from "../../../components/components";
 import { IoPerson } from "react-icons/io5";
 import { FaKey } from "react-icons/fa";
 import { useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { useUserAuthStore } from "../../../store/Authstore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 function AuthLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate=useNavigate()
-  const { login } = useUserAuthStore();
+  const { login,loader } = useUserAuthStore();
   const handleLogin = async () => {
+    if(email==""){
+      toast.error("Enter Email")
+      return
+    }
+    if(password==""){
+      toast.error("Enter password")
+      return
+    }
     // Perform login logic with email and password
     await login(email, password)
     // Add your logic to send a request to your backend for authentication
@@ -50,12 +59,19 @@ function AuthLogin() {
               />
             </div>
             {/* <div className="login-box-forgot"> </div> */}
+            {loader?
             <div
+            
+            className="login-box-button cursor-pointer w-full h-[2rem] rounded-[10px] bg-[#05386b] mt-2 text-white flex justify-center items-center text-[1rem] font-semibold"
+          >
+            <CustomLoader></CustomLoader>
+          </div>
+            :<div
               onClick={handleLogin}
               className="login-box-button cursor-pointer w-full h-[2rem] rounded-[10px] bg-[#05386b] mt-2 text-white flex justify-center items-center text-[1rem] font-semibold"
             >
               Login
-            </div>
+            </div>}
             <div onClick={()=>login('guest@gmail.com','guest')}className="login-box-button ps-3 pe-3 h-[2rem] rounded-[10px] bg-[#05386b] mt-3 text-white flex justify-center items-center text-[1rem] font-semibold">
               Login as Guest
             </div>

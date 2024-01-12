@@ -1,0 +1,9 @@
+.img-overlay{
+    grid-row: 1/2;
+    grid-column: 1/2;
+}
+.card-overlay{
+    grid-row: 1/2;
+    grid-column: 1/2;
+}
+
