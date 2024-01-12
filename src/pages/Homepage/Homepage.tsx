@@ -1,16 +1,13 @@
 import { Sidebar } from "../../components/Sidebar/Sidebar";
-import { BottomBar, Navbar } from "../../components/components";
+import { BottomBar, CustomLoader, Navbar, VideoCard } from "../../components/components";
 import banner from "../../assets/brooklyn99-banner.jpg";
 import { useEffect } from "react";
-import {  useVideoStore } from "../../store/Videostore";
+import { useVideoStore } from "../../store/Videostore";
 function Homepage() {
-  // const [vid,setVid] =useState<Video[]>([])
-  const {getVideo}=useVideoStore()
+  const {getVideo,loader,videos}=useVideoStore()
     useEffect(()=>{
+      console.log(videos)
         getVideo()
-        // .then((res)=>{
-        // if(res)
-        //   setVid(res)})
     },[])
   
   return (
@@ -41,13 +38,13 @@ function Homepage() {
             />
           </div>
           
-          {/* <div className="video-grid flex flex-wrap justify-center mt-2 gap-3  p-1">
+          <div className="video-grid flex flex-wrap justify-center mt-2 gap-3  p-1">
             {loader ?
           <CustomLoader type={true}></CustomLoader>
-            : vid && vid.map((vid) => (
+            : Array.isArray(videos) ? videos.map((vid) => (
               <VideoCard video={vid}></VideoCard>
-            ))}
-          </div> */}
+            )):<></>}
+          </div>
         </div>
       </div>
       <BottomBar></BottomBar>
