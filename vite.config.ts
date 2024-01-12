@@ -6,16 +6,6 @@ import eslintPlugin from 'vite-plugin-eslint'
 export default defineConfig({
   plugins: [
     react(),
-    eslintPlugin({
-      cache: false,
-      include: ['./src/**/*.ts','./src/**/**/*.ts', './src/**/*.tsx', './src/**/**/*.tsx','./src/**/**/**/*.ts','./src/**/**/**/*.tsx'],
-      exclude: [],
-    }),
   ],
-  server: {
-    port: 3000,
-    proxy: {
-      '/api': 'https://sitcomstore.onrender.com',
-    },
-  },
+ 
 })
