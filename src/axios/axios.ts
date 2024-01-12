@@ -5,7 +5,7 @@ import { APIBASEURL } from "../store/store";
 axios.defaults.withCredentials = true;
 
 export const axiosInstance = axios.create({
-  baseURL: "/api/",
+  baseURL: "/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
