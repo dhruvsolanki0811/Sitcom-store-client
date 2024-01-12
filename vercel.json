@@ -1,1 +1,14 @@
-{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
+{
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "https://sitcomstore.onrender.com/api/$1",
+        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/$1"
+      }
+    ]
+  }
+  
