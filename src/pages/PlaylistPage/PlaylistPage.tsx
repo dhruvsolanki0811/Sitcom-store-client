@@ -25,7 +25,7 @@ function PlaylistPage() {
             <CustomLoader />
           </div>
         ) : playlists.length == 0 ? (
-          <EmptyCard message="YOU HAVE 0 PLAYLISTS !" type="Add to Playlist" />
+          <EmptyCard message="YOU HAVE 0 PLAYLISTS !" type="View videos" />
         ) : (
           <div className="playlist-grid flex w-full flex-wrap justify-center pt-2 ps-3 pe-3 gap-9">
             {playlists.map((playlist) =>
