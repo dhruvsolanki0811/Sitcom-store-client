@@ -5,8 +5,7 @@ import { useEffect } from "react";
 import { useVideoStore } from "../../store/Videostore";
 function Homepage() {
   const {getVideo,loader,videos}=useVideoStore()
-    useEffect(()=>{
-      console.log(videos)
+  useEffect(()=>{
         getVideo()
     },[])
   

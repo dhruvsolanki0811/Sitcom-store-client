@@ -5,13 +5,7 @@ import eslintPlugin from 'vite-plugin-eslint'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
-    eslintPlugin({
-      // setup the plugin
-      cache: false,
-      include: ['./src/**/*.ts', './src/**/*.tsx'],
-      exclude: [],
-    }),
+    react()
   ],
   server: {
     port: 3000,
