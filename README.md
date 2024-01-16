@@ -4,12 +4,12 @@ A Video library to rewatch your favourite sitcom clips.
 
 ## Features
 
-- Implemented cookie-based authentication
+- Implemented cookie-based authentication.
 - Manage playlists and add your favorite videos to the playlist.
-- Add like to their Favourite videos
-- Add videos to Watchlater
-- Manage watch History
-- Add comments to the videos and reply on some funny comments
+- Add like to yout favourite videos.
+- Add videos to Watchlater.
+- Manage watch History.
+- Add Comments to the videos and reply on some funny Comments.
    
 
 ## Tech Stack
@@ -20,3 +20,5 @@ A Video library to rewatch your favourite sitcom clips.
 - Postgresql
 - Zustand
 - Tailwind CSS
+
+Backend Repository- [Sitcom-store-backend](https://github.com/dhruvsolanki0811/Sitcom-store-backend)
