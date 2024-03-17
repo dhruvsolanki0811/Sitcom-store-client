@@ -9,7 +9,7 @@ function BottomBar() {
     <>
     <footer className="footer-bar bg-[#1f2028]  fixed bottom-0 w-full ">
         <nav>
-          <ul className="flex  justify-center space-x-2 gap-2">
+          <ul className="flex  justify-center  gap-10">
             <div
               onClick={() => navigate("/")}
               className="nav-item btn-joblist flex flex-col items-center gap-1 text-[20px] text-white font-medium	m-2"

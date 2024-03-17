@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api': 'https://sitcomstore.onrender.com',
+      '/api': 'https://sitcomstorebackend.onrender.com',
     },
   },
 })
