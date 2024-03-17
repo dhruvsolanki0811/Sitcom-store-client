@@ -1,11 +1,10 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import {  useNavigate } from "react-router-dom"
 import { AiOutlineHome } from "react-icons/ai";
 import { FaRegCompass } from "react-icons/fa";
 import { MdVideoLibrary } from "react-icons/md";
 
 function BottomBar() {
     const navigate=useNavigate()
-   const {pathname}= useLocation()
   return (
     <>
     <footer className="footer-bar bg-[#1f2028]  fixed bottom-0 w-full ">
