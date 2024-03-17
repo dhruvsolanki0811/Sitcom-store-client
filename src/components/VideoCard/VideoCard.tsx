@@ -47,7 +47,8 @@ function VideoCard({
   };
 
   const [ShowMenu, setShowMenu] = useState(false);
-  const toggleShow = () => {
+  const toggleShow = (e:React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
     setShowMenu(!ShowMenu);
   };
   const { user } = useUserAuthStore();
@@ -109,11 +110,11 @@ function VideoCard({
   };
   return (
     <>
-      <div className="video-card flex flex-col  cursor-pointer min-w-[16.6rem] w-[16.9rem]  h-[14rem] gap-1 shadow-[2px_2px_2px_2px_rgb(0,0,0,20%)]">
-        <div
-          onClick={() => {
+      <div  onClick={() => {
             navigate(`/video/${video.id}`);
-          }}
+          }} className="video-card flex flex-col  cursor-pointer min-w-[16.6rem] w-[16.9rem]  h-[14rem] gap-1 shadow-[2px_2px_2px_2px_rgb(0,0,0,20%)]">
+        <div
+         
           className="vid-img-wrapper h-[70%]  rounded-[0.3rem] overflow-hidden"
         >
           <img

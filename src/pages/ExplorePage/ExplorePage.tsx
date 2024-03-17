@@ -14,7 +14,7 @@ function ExplorePage() {
     <Navbar></Navbar>
       <div className="main-content flex w-full max-w-[100vw] ">
         <Sidebar></Sidebar>
-        <div className="content-wrapper w-full h-full  flex flex-col ps-5">
+        <div className="content-wrapper w-full h-full mt-2 flex flex-col ps-5 max-sm:mx-0 max-sm:ps-2 ">
           <div className="button-chip-wrapper w-full flex wrap-none gap-3">
             <div onClick={()=>{getVideo()}} className="button-chip  ps-[0.7rem] pe-[0.7rem] pt-1 pb-1 bg-[#05376B] text-white text-[0.8rem] rounded-full font-bold hover:bg-[#04478a] cursor-pointer ">
               All

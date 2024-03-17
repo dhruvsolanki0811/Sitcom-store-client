@@ -2,7 +2,10 @@
     box-shadow:0 3px 6px 0 rgb(0 0 0 / 20%) ;
   background-color: #1f2028;   ;
 }
-
+.shadow-custom{
+    box-shadow:0 3px 6px 0 rgb(0 0 0 / 20%) ;
+  background-color: #1f2028;   ;
+}
 @media only screen and (max-width: 470px) {
     .search-container{
         visibility: hidden;

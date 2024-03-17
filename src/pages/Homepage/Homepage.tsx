@@ -15,7 +15,7 @@ function Homepage() {
       <Navbar></Navbar>
       <div className="main-content flex w-full max-w-[100vw] ">
         <Sidebar></Sidebar>
-        <div className="content-wrapper w-full flex flex-col ps-5">
+        <div className="content-wrapper w-full flex flex-col ps-5 max-sm:mx-0 max-sm:ps-2 mt-2">
           <div className="button-chip-wrapper  flex wrap-none gap-3">
             <div onClick={()=>{getVideo()}} className="button-chip  ps-[0.7rem] pe-[0.7rem] pt-1 pb-1 bg-[#05376B] text-white text-[0.8rem] rounded-full font-bold hover:bg-[#04478a] cursor-pointer ">
               All
@@ -30,7 +30,7 @@ function Homepage() {
               Suits
             </div>
           </div>
-          <div className="banner relative flex  mt-2 overflow-hidden  me-2 h-[18rem] rounded-[1rem]">
+          <div className="banner  relative flex  mt-2 overflow-hidden  me-2 h-[18rem] rounded-[1rem]">
             <img
               src={banner}
               alt=""
