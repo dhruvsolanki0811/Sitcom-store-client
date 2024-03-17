@@ -72,7 +72,7 @@ function AuthLogin() {
             >
               Login
             </div>}
-            <div onClick={()=>login('guest@gmail.com','guest')}className="login-box-button ps-3 pe-3 h-[2rem] rounded-[10px] bg-[#05386b] mt-3 text-white flex justify-center items-center text-[1rem] font-semibold">
+            <div onClick={()=>login('guest@gmail.com','guest')}className="cursor-pointer login-box-button ps-3 pe-3 h-[2rem] rounded-[10px] bg-[#05386b] mt-3 text-white flex justify-center items-center text-[1rem] font-semibold">
               Login as Guest
             </div>
             <div className="create-link text-white text-xs font-semibold mt-3">

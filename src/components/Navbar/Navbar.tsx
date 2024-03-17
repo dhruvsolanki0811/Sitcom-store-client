@@ -44,16 +44,16 @@ function Navbar({showSearch=true}:{showSearch?:boolean}) {
       <GiSofa className="text-xl" />
         SitcomStore
       </div>
-      {showSearch && <div className="search-container flex items-center justify-between w-[35vw] h-[76%] text-white bg-transparend rounded-full ps-2 pe-2 border-[1.5px] border-white border-solid">
-        <input type="text"  onKeyDown={handleKeyDown} className="search-box w-[90%] h-full bg-transparent outline-none text-[2.5vh]" placeholder="Search..."/>
-        <IoSearch className="search-box"/>
+      {showSearch && <div className="search-container flex items-center justify-between w-[35vw] h-[2rem] text-white bg-transparend rounded-full ps-2 pe-2 border-[1.5px] border-white border-solid">
+        <input type="text"  onKeyDown={handleKeyDown} className="search-box w-[90%] h-full bg-transparent outline-none text-[1rem] px-2" placeholder="Search..."/>
+        <IoSearch className="search-box text-[1.4rem] cursor-pointer"/>
 
       </div>}
       <div className="account-icon" onClick={toggleDropdown}>
-      <IoPersonSharp className="text-white text-[3.7vh]" />
+      <IoPersonSharp className="text-white text-[3.7vh] cursor-pointer" />
       {/* Dropdown */}
       {isDropdownOpen && (
-            <div className="dropdown absolute  right-5 mt-2 bg-[#1f2028] text-black rounded-md shadow-lg overflow-hidden border-white border-[1px] rounded-full border-solid">
+            <div className="dropdown absolute cursor-pointer  right-5 mt-2 bg-[#1f2028] text-black rounded-md shadow-lg overflow-hidden border-white border-[1px] rounded-full border-solid">
               {/* Dropdown content */}
               {!  userPresent?<><div onClick={()=>{navigate('/login')}} className="p-2 text-white ">Login</div>
               <div onClick={()=>{navigate('/signup')}} className="p-2 text-white">Signup</div>
