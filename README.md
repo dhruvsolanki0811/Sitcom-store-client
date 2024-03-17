@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
+# [SitcomStore](https://sitcomstore.vercel.app/)
+A Video library to rewatch your favourite sitcom clips.
+[![SitcomStore](./public/Sitcomstore.png)](https://sitcomstore.vercel.app/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+- Implemented cookie-based authentication.
+- Manage playlists and add your favorite videos to the playlist.
+- Add like to yout favourite videos.
+- Add videos to Watchlater.
+- Manage watch History.
+- Add Comments to the videos and reply on some funny Comments.
+   
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- Typescript
+- Python
+- React
+- Django-rest-framework
+- Postgresql
+- Zustand
+- Tailwind CSS
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Backend Repository- [Sitcom-store-backend](https://github.com/dhruvsolanki0811/Sitcom-store-backend)
