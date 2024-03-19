@@ -2,7 +2,7 @@
         "rewrites": [
             {
                 "source": "/api/(.*)",
-                "destination": "https://sitcomstorebackend.onrender.com/api/$1"
+                "destination": "https://sitcombackend.onrender.com/api/$1"
             },
         {
             "source": "/(.*)",
